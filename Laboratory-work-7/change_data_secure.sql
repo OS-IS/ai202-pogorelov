@@ -1,5 +1,7 @@
 CREATE OR REPLACE FUNCTION change_data_secure(attribute1 text, attribute2 text)
 RETURNS INTEGER AS $$
+DECLARE
+    result INTEGER;
 BEGIN
     UPDATE persons
     SET person_name = attribute2
