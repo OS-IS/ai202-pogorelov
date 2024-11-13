@@ -1,8 +1,13 @@
-CREATE OR REPLACE FUNCTION pohorielov.get_data(attribute_value VARCHAR)
-RETURNS TABLE (p_id INT, person_name VARCHAR, age INT, spot_conf INT) AS $$
+CREATE OR REPLACE FUNCTION get_data(attribute_value VARCHAR)
+RETURNS TABLE
+(p_id INTEGER, persom_name VARCHAR, age INTEGER)
+AS $$
+DECLARE
+	str VARCHAR;
 BEGIN
-    RETURN QUERY
-    SELECT * FROM pohorielov.persons
-    WHERE person_name = get_data.attribute_value;
+	str := 'SELECT p_id, person_name, age from persons where person_name = ''' || 
+		attribute_value || '''';
+	RAISE NOTICE 'Query=%',str;
+	RETURN QUERY EXECUTE str;
 END;
 $$ LANGUAGE plpgsql;
