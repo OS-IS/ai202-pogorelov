@@ -1,17 +1,10 @@
-CREATE OR REPLACE FUNCTION change_data(attribute1 TEXT, attribute2 TEXT)
-RETURNS INTEGER AS $$
+CREATE OR REPLACE FUNCTION change_data(person_name VARCHAR, new_age INT)
+RETURNS VOID AS $$
 DECLARE
-    updated_count INTEGER;
+    query VARCHAR;
 BEGIN
-    UPDATE persons
-    SET person_name = attribute2
-    WHERE p_id = attribute1::INTEGER
-    RETURNING p_id INTO updated_count; 
-    
-    IF updated_count IS NULL THEN
-        RETURN 0;
-    ELSE
-        RETURN 1;
-    END IF;
+    query := 'UPDATE persons SET age = ' || new_age || ' WHERE person_name = ''' || person_name || '''';
+    RAISE NOTICE 'Query=%', query;
+    EXECUTE query;
 END;
 $$ LANGUAGE plpgsql;
