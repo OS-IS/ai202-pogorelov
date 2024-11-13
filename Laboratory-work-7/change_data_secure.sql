@@ -1,17 +1,7 @@
-CREATE OR REPLACE FUNCTION change_data_secure(attribute1 text, attribute2 text)
-RETURNS INTEGER AS $$
-DECLARE
-    result INTEGER;
+CREATE OR REPLACE FUNCTION change_data_secure(person_name VARCHAR, new_age INT)
+RETURNS VOID AS $$
 BEGIN
-    UPDATE persons
-    SET person_name = attribute2
-    WHERE person_name = attribute1
-    RETURNING p_id INTO result;
-
-    IF result IS NULL THEN
-        RETURN 0;
-    ELSE
-        RETURN 1;
-    END IF;
+    EXECUTE 'UPDATE persons SET age = $1 WHERE person_name = $2'
+    USING new_age, person_name;
 END;
 $$ LANGUAGE plpgsql;
